@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	
+	<style>
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+		}
+		
+		#box3{
+			
+			margin-left: 300px;
+			width: 100px;
+			height: 100px;
+			background-color: yellow;
+			
+		}
+		#box4{
+			
+			
+			width: 100px;
+			height: 100px;
+			background-color: green;
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="box1"></div>
+	<div id="box2"></div>
+	<div id="box3"></div>
+	<input id="inp" type="text">
+	<div id="box4"></div>
+
+<script>
+	window.onclick = function(){
+
+		var box1 = document.getElementById("box1");
+		//按下
+		box1.onmousedown = function(event){
+			event = event || window.event;
+			//鼠标偏移量
+			var l = event.clientX - box1.offsetLeft;
+			var t = event.clientY - box1.offsetTop;
+
+			//拖拽
+			document.onmousemove = function(event){
+				event = event || window.event;
+
+				var left = event.clientX;
+				var top = event.clientY;
+
+				box1.style.left = left-l+"px";
+				box1.style.top = top -t+"px";
+			}
+
+			//松手
+			document.onmouseup = function(){
+				document.onmousemove = null;
+
+				document.onmouseup = null;
+			}
+
+			//取消全选时，没有绑定事件的元素的拖拽行为
+			return false;
+		}
+
+
+		var box3 = document.getElementById("box3");
+
+		//鼠标滚动事件
+		box3.onmousewheel = function(event){
+			event = event || window.event;
+			//正值向上滚，负值向下
+			// alert(event.wheelDelta);
+			if (event.wheelDelta >0 ) {
+				box3.style.height = box3.clientHeight - 10+'px';
+			}else{
+				box3.style.height = box3.clientHeight + 10+'px';
+			}
+
+
+			//取消浏览器默认行为
+			//通过addEventListener()绑定的响应函数，取消默认行为需要
+			//event.preventDefault();
+			return false;
+		}
+
+		var inp = document.getElementById("inp");
+
+		/*
+			键盘事件
+				onkeydown
+					如果一直按着某个键，则一直触发
+					连续触发时，第一次与第二次间隔稍微长，这种设计为了防止误操作
+				onkeyup
+
+		 */
+		inp.onkeydown = function(event){
+			/*
+				通过keyCode获取按键编码
+				其他属性
+					altKey
+					ctrlKey
+					shiftKey
+			 */
+			if (event.keyCode === 89 && event.ctrlKey) {
+				console.log("onkeydown");
+			}
+			if (event.keyCode >= 48 && event.keyCode <= 57) {
+				//输入数字时，取消默认的输出行为
+				return false;
+			};
+		}
+
+		var box4 = document.getElementById("box4");
+		document.onkeydown = function(event){
+			switch(event.keyCode){
+				case 37:
+					// alert("message");
+					box4.style.left = box4.offsetLeft-10+'px';
+					break;
+				case 39:
+					box4.style.left = box4.offsetLeft+10+'px';
+					break;
+				case 38:
+					box4.style.left = box4.offsetTop-10+'px';
+					break;
+				case 40:
+					box4.style.left = box4.offsetTop+10+'px';
+					break;
+
+			}
+
+		}
+
+	}
+</script>
+</body>
+</html>

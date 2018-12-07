@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<h1 id="h"></h1>
+
+<script>
+	/*
+		BOM
+			Window
+				代表整个浏览器窗口，同时window也是网页中的全局对象
+			Navigator
+				代表当前浏览器的信息，通过该对象可以识别不同的浏览器
+			Location
+				代表当前浏览器的地址栏信息，通过Location可以地址栏信息，操作浏览器跳转页面
+			History
+				代表浏览器的历史记录，可以通过该对象操作浏览器的历史记录（由于隐私问题，该对象不能获取具体历史记录，只能操作浏览器想前或向后翻页，而且操作只在当次访问有效）
+			Screen
+				代表用户的屏幕信息，通过该对象获取用户的显示器的相关信息
+
+			这些BOM对象在浏览器中都是作为window的属性保存，可以通过window对象调用或直接使用
+	 */
+	
+	/*
+		Navigator
+			由于历史原因，navigator对象中的大部分属性都不能用来识别浏览器了，一般只使用userAgent来判断浏览器信息
+			userAgent是一个字符串，包含描述浏览器信息的内容，不同浏览器有不同的userAgent
+	 */
+	console.log(navigator);
+	console.log(navigator.appName);
+	console.log(navigator.userAgent);
+
+	if ((/chrome/i).test(navigator.userAgent)) {
+		console.log('YES');
+	};
+
+	/*
+		History
+			length：获取当前访问的链接数量
+			console.log(history.length);
+			back()：退后上一个页面，与浏览器返回一样
+			forward()：跳转下一个页面，与浏览器前进一样
+			go()：跳转到指定页面
+				整数作为参数：
+					1：向前跳转一个页面
+					2：向前跳转两个页面
+					-1：向后跳转一个页面
+					-2：向后跳转两个页面
+			history.go(1);
+	 */
+	 /*
+	 	Location
+
+	  */
+	 console.log(location);
+	 // 直接修改会直接跳转到相应页面
+	  //location = "http://www.baidu.com";
+	  /*
+	  	assign()
+	  		跳转到其他页面
+	   */
+	  //location.assign('http://baidu.com')
+	  /*
+	  	reload()
+	  		用于重新加载当前页面，刷新
+	  		在方法中传递true为参数，则强制清空缓存刷新
+	   */
+	  //location.reload(true);
+	  /*
+	  	replace()
+	  		使用新页面替换当前页面
+	   */
+	  //location.replace("http://www.baidu.com")
+	  
+	  /*
+	  	setInterval()
+	  		定时调用，将一个函数每隔一段时间执行一次
+	  		参数：
+	  			回调函数
+	  			间隔时间，毫秒
+	  		返回值：
+	  			number数据
+	  	clearInterval()
+	  		关闭指定定时器
+	   */
+	var h = document.getElementById("h");
+	var num = 1;
+	var timer = setInterval(function(){
+		h.innerHTML = num++;
+		if (num == 11) {
+			clearInterval(timer);
+		};
+	},1000);  	
+
+	/*
+		延时调用
+	 */
+	var dtimer =setTimeout(function(){
+		console.log(num++);
+	}, 3000);
+
+	// clearTimeout(timer);
+	  
+</script>
+</body>
+</html>

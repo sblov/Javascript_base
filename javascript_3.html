@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		/*
+		量词	
+			{n} 正好出现n次
+			{m，n} 出现m-n次
+			{m，} m次以上
+			+ 至上一个
+			* 任意个数
+			? 0或1个
+			^ 表示开头
+			$ 表示结尾
+		 */
+		var reg = /a{3}/;//匹配上即可
+		reg = /a{1,3}/;//匹配上即可
+		reg = /a{3,}/;
+		reg = /a+b/;
+		reg = /^a+a$/
+		console.log(reg.test("aaa"));
+		reg = /^1[3-9][0-9]{9}$/	;//手机号匹配
+		console.log(reg.test(18628255319));
+		/*
+			. 表示任意字符
+			在正则表达式中使用\作为转义字符
+			\. 表示.
+		 */
+		reg = /\./;
+		console.log(reg.test("b."));
+		/*
+			\w 字母、数字、_ [A-z0-9_]
+			\W 除了字母、数字、_ [^A-z0-9_]
+			\d 任意数字 [0-9]
+			\D 除了数字 [^0-9]
+			\s 空格
+			\S 除了空格
+			\b 单词边界
+			\B 除了单词边界
+			 */
+		reg = /\w/;
+		console.log(reg.test("123bc"));
+		reg = /\W/;
+		console.log(reg.test("&^*"));
+		reg = /\d/;
+		console.log(reg.test(786785));
+		reg =  /\D/;
+		console.log(reg.test("ajsbd"));
+		reg = /\s/;
+		console.log(reg.test("sbah v"));
+		reg = /\S/;
+		console.log(reg.test("  "));
+		reg = /\bhello\b/;
+		console.log(reg.test("hello li"));
+		reg = /\Bhello\B/;
+		console.log(reg.test("jsihelloli"));
+		/*
+			去除空格
+		 */
+		//var str =  prompt("print message:");//接受用户输入
+		var str = '    he  llo    ';
+		//console.log(str.replace(/\s/g,""));//去除所有空格
+		console.log(str.replace(/^\s+|\s+$/g,""));//去除开头与结尾
+
+		var emailReg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}/;
+		console.log(emailReg.test('sb_lov@sina.com'));
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

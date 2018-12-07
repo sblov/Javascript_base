@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+		}
+		#outer{
+			width: 500px;
+			margin: 50px auto;
+			padding: 10px;
+			background-color: #D3D3D3;
+			text-align: center;
+		}
+		
+		form{
+			margin-top: 200px;
+			
+			text-align: center;
+		}
+		label{
+			display: inline-block;
+			width: 60px;
+		}
+		 table{
+                border:0;
+                cellspacing:0;
+                cellpadding:0;
+                display: inline-block;
+                margin: 0 auto;
+            }
+             
+            table tr{
+                border:none;
+                padding:0;
+                margin:0;
+            }
+ 
+            table td,th{
+                border-bottom:2px solid #778899;
+                margin:0;
+                padding:7px;
+            }
+ 
+            table td:hover{
+                background:#eee;
+                cursor:pointer;
+            }
+		a{
+			text-decoration: none;
+		}
+		a:link{
+			color: #778899;
+		}
+		a:active{	
+			color: #838B83	;
+		}a:hover{
+			color: #2F4F4F;
+		}
+	</style>
+</head>
+<body>
+
+<div id="outer">
+	<table id="employeeTable" cellspacing="0" cellpadding="0">
+		<tr>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Salary</th>
+			<th>&nbsp</th>
+		</tr>
+		<tr>
+			<td>Lov-1</td>
+			<td>lov1@sina.com</td>
+			<td>10000</td>
+			<td><a href="javascript: ;">Delete</a></td>
+		</tr>
+		<tr>
+			<td>Lov-2</td>
+			<td>lov2@sina.com</td>
+			<td>10000</td>
+			<td><a href="deleteEmp?id=002">Delete</a></td>
+		</tr>
+		<tr>
+			<td>Lov-3</td>
+			<td>lov3@sina.com</td>
+			<td>10000</td>
+			<td><a href="deleteEmp?id=003">Delete</a></td>
+		</tr>
+
+	</table>
+
+	<form action="">
+		<label for="name">Name:</label><input id="name" type="text"><br>
+		<label for="email">Email:</label><input id="email" type="text"><br>
+		<label for="salary">Salary:</label><input id="salary" type="text">
+		<br>
+		<button id="submit">submit</button>
+	</form>
+
+</div>
+	
+
+<script>
+	
+/*
+	document.createElement():用于创建元素节点对象，标签名作为参数
+	document.createTextNode():创建文本节点对象，文本内容为参数
+	appendChild():向父节点添加一个新的子节点（父节点.appendChild(子节点)）
+	insertBefore():(父节点.insertBefore(新节点,旧节点))
+	replaceChild():(父节点.replaceChild(新节点,旧节点))
+	removeChild():(父节点.removeChild(子节点))---子节点.parentNode.removeChild(子节点)
+
+ */
+ 	var del = function(){
+ 				var tr = this.parentNode.parentNode;
+
+
+ 				//弹出带有确认取消的提示框
+ 				var flag = confirm("delete--"+tr.getElementsByTagName("td")[0].innerText);
+ 				if (flag) {
+ 					//this是点击的超链接
+ 					tr.remove();
+ 				}
+
+ 				//超链接默认行为跳转页面，通过返回false取消默认行为
+ 				return false;
+ 			};
+
+ 	window.onload = function(){
+
+ 		var allA = document.getElementsByTagName("a");
+
+ 		for(var i = 0; i<allA.length; i++){
+ 			/*
+ 			for循环会在页面加载完成后立即执行，而响应函数在超链接点击时才执行
+ 			 */
+ 			allA[i].onclick = del;
+ 		}
+
+ 		var submit = document.getElementById("submit");
+ 		submit.onclick = function(){
+ 			var name = document.getElementById("name").value;
+ 			var email = document.getElementById("email").value;
+ 			var salary = document.getElementById("salary").value;
+
+ 			var table = document.getElementById("employeeTable");
+ 			var tr = document.createElement("tr");
+ 			
+
+ 			tr.innerHTML="<td>"+name+"</td>"+
+ 						"<td>"+email+"</td>"+
+ 						"<td>"+salary+"</td>"+
+ 						"<td>"+'<a href="javascript: ;">Delete</a>'+"</td>";
+ 			
+
+ 			
+ 			table.appendChild(tr);
+
+ 			tr.lastChild.firstChild.onclick = del;
+
+ 				
+ 				return false;
+ 			};
+
+ 		
+
+ 		
+ 	}
+</script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#outer{
+			width: 300px;
+			margin: 50px auto;
+			padding: 10px;
+			background-color: yellow;
+		}
+		img{
+			width: 300px;
+		}
+	</style>
+	<script>
+		/*
+		DOM(Documennt Object Model)
+			Document：整个Html网页文档
+			Object：将页面中的每一个部分转换为一个对象
+			Model：用模型小时对象之间的关系
+		Node：网页中最基本的组成部分，网页中每一部分都是一个节点
+		常用节点：
+			文档节点：整个html
+			元素节点：html标签
+			属性节点：元素的属性
+			文本节点：html标签中的文本内容
+		PNG
+
+
+		 */	
+		
+		// 事件
+		// 文档加载顺序
+		/*
+			自上向下顺序加载，如将script标签卸载页面的上面，在代码执行时，页面还没加载，页面没有加载DOM对象，导致script中无法获取
+			var btn =  document.getElementById("btn");
+				console.log(btn);
+				btn.onclick = function(){
+				alert("message");
+			};
+		 */
+		//onload事件：在整个页面加载完成后才触发
+		window.onload = function(){
+
+			var btn =  document.getElementById("btn");
+			console.log(btn);
+			btn.onclick = function(){
+				alert("message");
+			};
+
+			//DOM查询
+			/*
+			document:
+				getElementById()：一个元素节点对象
+				getElementsByTagName()：一组元素节点对象
+				getElementsByName()：一组元素节点对象
+			元素节点：
+				getElementsByTagName()
+				childNodes：获取包括文本节点在内的所有节点（DOM标签间的空白也是文本节点）
+				children
+				firstChild：获取当前元素的第一个子节点（包括空白文本节点）
+				firstElementChild
+				lastChild
+			具体节点：
+				parentNode
+				previousSibling（也会获取空白的文本）
+				previousElementSibling
+				nextSibling （也会获取空白文本）
+			 */
+			//读取元素节点的属性：元素.属性名（读取class：元素.className）
+			//
+			console.log(btn.id);
+			console.log(btn.innerHTML);
+			console.log(btn.className);
+
+
+			//图片切换
+			var prev = document.getElementById("prev");
+			var next = document.getElementById("next");
+			var img = document.getElementsByTagName("img")[0];//返回的数组取第一个值
+			var info = document.getElementById("info");
+			var imgArr = ["img/1.png","img/2.png","img/3.png","img/4.png"];
+	
+			//当期图片索引
+			var index = 0;
+			info.innerHTML = index+1+ "/"+imgArr.length;
+			prev.onclick = function(){
+				index--;
+				if (index < 0) {index = imgArr.length-1};
+				img.src = imgArr[index];
+				info.innerHTML = index+1+ "/"+imgArr.length;
+			};
+
+			next.onclick = function(){
+				index++;
+				if (index > imgArr.length-1) {
+					index = 0;
+				};
+				img.src = imgArr[index];
+				info.innerHTML = index+1+ "/"+imgArr.length;
+			};
+
+
+
+		}
+
+		/*
+			DOM查询
+			获取body：
+				document.getElementsByTagName('body')[0]
+				document.body
+				documentElement
+			获取所有元素
+				document.all
+				document.getElementsByTagName('*')
+			根据元素class属性查询一组元素节点对象
+				getElementsByClassName()
+			根据css选择器查询元素
+				document.querySelector()//只返回满足条件的第一个元素
+				document.querySelectorAll()//无论满足的条件多少，都以数组形式返回
+		 */
+
+		
+		
+		
+	</script>
+</head>
+<body>
+	<!-- 事件：用户与浏览器之间的交互行为 -->
+	<!-- <button id="btn" onclick="alert('onclick');">Click</button> -->
+	<button id="btn" >Click</button> 
+	<!-- <script>
+		//顺序加载
+		var btn =  document.getElementById("btn");
+		console.log(btn);
+		btn.onclick = function(){
+			alert("message");
+		};
+	</script> -->
+	<div id="outer">
+		
+		<p id="info"></p>
+		<img src="img/1.png" alt="image">
+
+		<button id="prev">prev</button>
+		<button id="next">next</button>
+
+	</div>
+
+	<form action="" method="post">
+		<input type="checkbox" id="checkedAllBox">全选/全不选
+		<br>
+		<input type="checkbox" name="item" value="a">a
+		<input type="checkbox" name="item" value="b">a
+		<input type="checkbox" name="item" value="c">a
+		<input type="checkbox" name="item" value="d">a
+		<br>
+		<input type="button" id="checkedAllBtn" value="全选">
+		<input type="button" id="checkedNoBtn" value="全不选">
+		<input type="button" id="checkedRevBtn" value="反选">
+		<input type="button" id="sendBtn" value="提交">
+
+	</form>
+	<script>
+		var items = document.getElementsByName("item");
+		
+		//全选
+		var checkedAllBtn = document.getElementById("checkedAllBtn");
+		checkedAllBtn.onclick = function(){
+
+			for(var i=0;i<items.length;i++){
+				items[i].checked = true;
+			}
+			checkedAllBox.checked = true;
+		};
+
+		//全不选
+		var checkedNoBtn = document.getElementById("checkedNoBtn");
+		checkedNoBtn.onclick = function(){
+			
+			for(var i=0;i<items.length;i++){
+				items[i].checked = false;
+			}
+			checkedAllBox.checked = false;
+		};
+
+		//反选
+		var checkedRevBtn = document.getElementById("checkedRevBtn");
+		checkedRevBtn.onclick = function(){
+			checkedAllBox.checked = true;
+			for(var i=0;i<items.length;i++){
+				items[i].checked = !items[i].checked;
+
+				if (!items[i].checked) {
+					checkedAllBox.checked = false;
+				};
+			}
+		};
+
+		//发送
+		var sendBtn = document.getElementById("sendBtn");
+		sendBtn.onclick = function(){
+
+			for(var i=0;i<items.length;i++){
+				if (items[i].checked) {
+					console.log(items[i].value);
+				};
+			};
+		};
+
+		//全选/全不选
+		var checkedAllBox = document.getElementById("checkedAllBox");
+		checkedAllBox.onclick = function(){
+			console.log(this +"this === checkedAllBox");
+
+			for(var i=0;i<items.length;i++){
+				items[i].checked = this.checked;
+			};
+		};
+
+		//item事件
+		for(var i=0;i<items.length ;i++){
+			items[i].onclick = function(){
+				checkedAllBox.checked = true;
+				for(var j=0;j<items.length;j++){
+					if (!items[j].checked) {
+						checkedAllBox.checked = false;
+						break;
+					}
+				}
+			};
+		}
+
+	</script>
+</body>
+</html>

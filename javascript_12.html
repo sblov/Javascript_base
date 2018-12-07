@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	#outer{
+		width: 520px;
+		height: 500px;
+		margin: 50px auto;
+		background-color: yellowgreen;
+		padding: 10px 0;
+		overflow: hidden;
+		position: relative;
+	}
+	#imgList{
+		list-style: none;
+		/* width: 2600px; */
+		position: absolute;
+	}
+	#imgList li{
+		margin: 0 10px;
+		float: left;
+	}
+	#navDiv{
+		position: absolute;
+		bottom: 15px;
+	}
+	#navDiv a{
+		float: left;
+		width: 15px;
+		height: 15px;
+		background-color: red;
+		margin: 0 5px;
+		opacity: 0.5;
+		/* 兼容ie8透明 */
+		filter: alpha(opacity=50);
+	}
+	#navDiv a:hover{
+		background-color: black;
+	}
+	img{
+		width: 500px;
+		height: 500px;
+	}
+</style>
+<script>
+	window.onload = function(){
+		var imgList = document.getElementById("imgList");
+		var imgArr = document.getElementsByTagName("img");
+		//设置list宽度
+		imgList.style.width = imgArr.length*520+"px";
+
+		var navDiv = document.getElementById("navDiv");
+		var outer = document.getElementById("outer");
+		//设置navDiv位置
+		navDiv.style.left = (outer.offsetWidth - navDiv.offsetWidth)/2+"px";
+		//设置第一个a默认选中
+		var index = 0;
+		var allA = document.getElementsByTagName("a");
+		allA[index].style.backgroundColor = "black";
+
+		var timer;
+		for(var i = 0; i<allA.length;i++){
+			allA[i].num = i;
+			allA[i].onclick = function(){
+				clearInterval(timer);
+				index = this.num;
+
+				imgList.style.left = -520*index+"px";
+
+				setA();
+				move(imgList,"left",-520*index,10,function(){
+					autoChange();
+				});
+			}
+		}
+
+		autoChange();
+
+		function setA(){
+
+			if (index >= imgArr.length -1) {
+				index = 0;
+				imgList.style.left = 0;
+			};
+
+			for(var i = 0; i<allA.length;i++){
+				allA[i].style.backgroundColor = "";
+			}
+
+			allA[index].style.backgroundColor = "black";
+		}
+
+		function autoChange(){
+			timer = setInterval(function(){
+             	index++;
+             	index %= imgArr.length;
+
+             	move(imgList,"left",-520*index,20,function(){
+             		setA();
+             	});
+			}, 3000)
+		}
+
+		function getStyle(obj,name){
+			if(window.getComputedStyle){
+				return getComputedStyle(obj,null)[name];
+			}else{
+				return obj.currentStyle[name];
+			}
+		}
+		/*
+			obj:目标对象
+			target:目标位置
+			speed：速度
+		 */
+		function move(obj , attr, target, speed, callback){
+			//关闭上一个定时器
+			clearInterval(obj.timer);
+			var current =  parseInt(getStyle(obj,attr));
+			if (current > target) {
+					speed = -speed;
+			};
+
+			//开启定时器
+			obj.timer = setInterval(function(){
+				var current =  parseInt(getStyle(obj,attr));
+				console.log(current);
+				var newValue = current + speed;
+
+				if (speed>0&&newValue>target || speed<0&&newValue<target) {newValue=target};
+
+				// if (current > target) {
+				// 	speed = -speed;
+				// };
+				//var num  = parseInt(current);
+
+				obj.style[attr] = newValue+"px";
+
+				if (newValue == target) {
+					clearInterval(obj.timer);
+
+					callback && callback();
+				};
+			}, 30)
+		}
+	}
+</script>
+<body>
+	<div id="outer">
+		<ul id="imgList">
+			<li><img src="img/1.jpg" alt=""></li>
+			<li><img src="img/2.jpg" alt=""></li>
+			<li><img src="img/3.jpg" alt=""></li>
+			<li><img src="img/4.jpg" alt=""></li>
+			<li><img src="img/5.jpg" alt=""></li>
+			<li><img src="img/1.jpg" alt=""></li>
+			
+		</ul>
+		<div id="navDiv">
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+		</div>
+	</div>
+
+
+</body>
+</html>

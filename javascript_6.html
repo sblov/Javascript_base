@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		
+		#box{
+			/* width: 200px; */
+			height: 200px;
+			background: red;
+		}
+
+		#box1{
+			width: 100px;
+			height: 400px;
+			background-color: red;
+		}
+
+		#a{
+			width: 200px;
+			height: 300px;
+			/* overflow: hidden; */
+			overflow: auto;
+		}
+		#info{
+			width: 300px;
+			height: 500px;
+			background-color: yellow;
+			overflow: auto;
+		}
+
+	</style>
+</head>
+<body>
+	
+	<button id="btn1">btn1</button>
+	<button id="btn2">btn2</button>
+	<div id="box"></div>
+
+	<button id="btn01">click</button>
+	<br>
+	<div id="i" style="position:relative;">
+		<div id="a">
+			<div id="box1"></div>		
+		</div>
+	
+	</div>
+	
+	<div>
+		<h3>welcome</h3>
+		<p id="info">……</p>
+		<input type="checkbox"	disabled="true">
+		<input type="submit" value="submit" disabled="true" >
+	</div>
+
+<script>
+	window.onload = function(){
+		var btn1 = document.getElementById("btn1");
+		var btn2 = document.getElementById("btn2");
+		var box = document.getElementById("box");
+
+		/*
+			JS修改元素的样式：元素.style.样式名 = 样式值
+			（对于含有-的样式名，以驼峰方式）
+			通过该方式修改的css为内联样式
+		 */
+		btn1.onclick = function(){
+			box.style.width = "300px";
+			box.style.height = "300px";
+			box.style.backgroundColor = "yellow";
+		}
+		/*
+			JS读取元素的样式：元素.style.样式名
+			通过该方式读取的css为内联样式
+
+			获取元素当前显示的样式
+				元素.currentStyle.样式名（当前没有设置样式，读取默认值；该方式只有ie支持）
+				getComputedStyle()(window的方法)：需要两个参数，‘获取样式的元素’，‘可以传一个伪元素，一般传null’；返回一个对象，该对象封装了当前元素对应的样式；对应没有设置的，会读取真实值;不支持ie8
+	
+			兼容问题的解决思路
+			if(window.getComputedStyle){
+				getComputedStyle
+			}else{	currentStyle	}
+		 */
+		btn2.onclick = function(){
+			//alert(box.style.width+"--"+box.style.height)
+			alert(getComputedStyle(box,null).width);
+		}
+
+		var box01 = document.getElementById("box1");
+		var btn01 = document.getElementById("btn01");
+
+		btn01.onclick = function(){
+			/*
+				clientWidth,clientHeight
+					获取元素的可见宽度与高度（包括内边距）
+					返回数字，不带px；该属性为只读
+
+			 */
+			//alert(box01.clientWidth);
+			/*
+				offsetParent
+					获取离当前元素最近的开启了定位的元素；如果没有，返回body
+			 */
+			//var op = box01.offsetParent;
+			//alert(op.id);
+			/*
+				offsetLeft
+					当前元素相对其定位元素的水平偏移量
+				offsetTop
+					当前元素相对其定位元素的垂直偏移量
+			 */
+			//alert(box01.offsetLeft);
+			/*
+				scrollWidth
+				scrollHeight
+					可以获取元素整个滚动区域的宽度和高度
+				scrollLeft
+				scrollTop
+					可以获取水平/垂直滚动条滚动的距离
+			 */
+			var a = document.getElementById("a");
+			//alert(a.scrollHeight);
+			//alert(a.scrollTop);
+			/*
+				scrollHeight-scrollTop == clientHeight
+				垂直滚动条到底
+			 */
+			/*
+				scrollWidth-scrollLeft == clientWidth
+				水平滚动条到底
+			 */
+			alert(a.scrollHeight-a.scrollTop == a.clientHeight);
+
+		}
+
+		var info = document.getElementById("info");
+		var inputs = document.getElementsByTagName("input");
+
+		info.onscroll = function(){
+			if(info.scrollHeight - info.scrollTop == info.clientHeight){
+				inputs[0].disabled = false;
+			}
+		}
+
+		inputs[0].onclick = function(){
+			if (this.checked) {inputs[1].disabled = false;}
+			else
+			{inputs[1].disabled = true;}
+			
+		}
+
+	}
+
+</script>
+</body>
+</html>

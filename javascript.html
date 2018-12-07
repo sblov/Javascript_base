@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	
+	<!-- 外部js资源文件 
+		<script>默认type="text/javascript"-->
+	<script src="myjs.js"></script>
+	<script>
+		
+		/*三种输出方式*/
+		//alert("message");
+		document.write("string");
+		console.log("x");
+
+		/*
+		 字面量：不可改变的值
+		 变量：
+		 	var声明变量
+		 标识符：
+		 	js中的所有可以自主命名的
+		 	js底层保存标识符时实际采用Unicode编码
+		 数据类型：字面量的类型
+		  	6种：String、Number、Boolean、Null、Undefined、Object
+		  	前5种为基本数据类型，Object为引用数据类型
+		  	typeof检查变量类型
+		  	NaN:not a number
+		  	"属性名" in 对象 ：检查该对象是否包含该属性
+		 类型转换：
+		  	String: toString()(Null与Undefined没有)
+		  			String()
+		  	Number: Number()( 对于String中有数字与字符一起时，转换为NaN)
+		  		   	parseInt(),parseFloat()将String中数字进行转换，对于非String类型，都先转换String型，再转换为Numb *er)
+		  	Boolean:Boolean(
+		  	进制
+		  		1进制：0x开
+		  		8进制：0开
+		  		2进制：0b开头
+		 
+		 */
+		var name = "lov_name";
+		console.log(name);
+		console.log(typeof name);
+
+		// 三种函数声明
+		var fun_1 = new Function("console.log('fun_1');");
+		var fun_2 = function(){
+			console.log("fun_2");
+		}
+		function fun_3(){
+			console.log("fun_3");
+		}
+		fun_1();
+		fun_2();
+		fun_3();
+		// 立即执行函数
+		(function(){
+			console.log("fun_4");
+		})();
+
+		/*
+		 在全局中不以var声明时，都属于window属性或方法
+		 变量的声明提前
+		 	使用var关键字生命的变量，会在所有的代码执行前被声明（但不会被赋值）；如果声明变量时不使用var关键字，则变量不会被提前声明
+		 函数的声明提前
+		 	使用函数声明形式创建的函数function 函数(){}，会在所有代码执行前就被创建，所以可以在函数声明前来调用函数；使用函数表达式创建的函数，不会被声明提前，所以不能在声明前调用
+		 在函数中的声明提前与全局类似，对于在函数中没有用var声明的变量，会以变成上一级的变量
+
+
+		 this：解析器在调用函数每次都会向函数内部传递一个隐含的参数，为函数执行的上下文对象，以函数的调用方式不同，this指向不同的对象：
+		 	以函数形式，指向window
+		 	以方法形式，指向调用方法的对象
+		 */
+		
+		//对于函数，使用new，相当于构造函数；通过instanceof判断is-a关系;而this指向的是新创建的对象
+		function Person(name,age){
+			this.name = name;
+			this.age = age;
+			this.sayName = function(){
+				console.log(this.name);
+			}
+		}
+		var per = new Person("lov",22);
+		per.sayName();
+		console.log(per instanceof Person);
+
+		// 原型对象prototype
+		// hasOwnProperty();判断是否有该属性
+		Person.prototype.a = 10;
+		//per.prototype.a = 11;实例不能操控原型
+		console.log(per.__proto__);
+		console.log(Person.__proto__);
+		console.log(Person.prototype.a);
+		console.log(per.hasOwnProperty("name"));
+		console.log(per);
+		var result = per.toString();
+		console.log(result);
+	</script>
+</head>
+<body>
+	
+	<!-- js代码可编写位置 -->
+	<button onclick="alert('onclick--');">onClick</button>
+	<a href="javascript:alert('Href--')">href</a>
+	<a href="javascript:;">href</a>
+</body>
+</html>

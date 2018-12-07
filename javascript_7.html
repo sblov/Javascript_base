@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#box1{
+			width: 300px;
+			height: 200px;
+			background-color: yellow;
+		}
+		#box2{
+
+			width: 300px;
+			height: 80px;
+			background-color: yellow;
+			margin-top: 50px;
+		}
+		#box3{
+			width: 50px;
+			height: 50px;
+			background-color: red;
+			position: absolute;
+		}
+		#box4{
+			width: 400px;
+			height: 200px;
+			background-color: blue;
+			
+		}
+		#box5{
+			margin-top: 60px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box1">
+	</div>
+	<div id="box2"></div>
+	
+	<div id="box4"></div>
+	<div id="box3">
+		
+	</div>	
+
+	<div id="box5">
+		
+		<button id="new">NEW</button>
+		<ol id="ol">
+			
+			<li><a href="javascript:;" class="link">click</a></li>
+			<li><a href="javascript:;" class="link">click</a></li>
+			<li><a href="javascript:;" class="link">click</a></li>
+		</ol>
+	</div>
+
+<script>
+	var box1 = document.getElementById("box1");
+	var box2 = document.getElementById("box2");
+
+	/*
+		当事件的响应函数被触发时，浏览器每次都会将一个事件对象作为实参传递给响应函数
+	 */
+	box1.onmousemove = function(event){
+
+		/*
+			ie8及以下，将事件对象作为window对象的属性保存
+		 */
+		event = event || window.event;
+
+		/*
+			clientX：获取鼠标指针的水平坐标
+			clientY：获取鼠标指针的垂直坐标
+			鼠标在当前可见窗口的坐标
+		 */
+		var x = event.clientX;
+		var y = event.clientY;
+
+		box2.innerHTML = x + '+'+y;
+	}
+
+	var box3 = document.getElementById("box3");
+
+	//
+	document.onmousemove = function(event){
+
+		event = event || window.event;
+
+		/*
+		获取页面滚动条距离
+			解决兼容：
+
+		var st = document.body.scrollTop || document.documentElement.scrollTop;
+		var sl = document.body.scrollLeft || document.documentElement.scrollLeft;
+
+		var left = event.clientX;
+		var top = event.clientY;
+
+		box3.style.top = top +st +"px";
+		box3.style.left = left  +sl+"px";
+*/
+		//pageX/pageY : 获取鼠标相对当前页面的坐标 ，ie8不支持
+		var left = event.pageX;
+		var top = event.pageY;
+
+		//box3.style.top = top  +"px";
+		//box3.style.left = left  +"px";
+
+
+	}
+
+	/*
+			事件的冒泡（Bubble）
+				指事件的向上传导，当后代元素上的事件触发，其祖先的相同事件也会触发；可以取消冒泡
+		 */
+		
+	 var box4 = document.getElementById("box4");
+	 box4.onmousemove = function(event){
+
+		 	event = event || window.event;
+
+		 	//取消冒泡
+		 	event.cancelBubble = true;
+	 }
+
+
+	 var newl = document.getElementById("new");
+	 var ol = document.getElementById("ol");
+
+	 /*
+	 	事件的委托
+	 		指将事件统一绑定给元素的共同的祖先元素，当后代元素事件触发时，会冒泡传到祖先元素，再通过祖先元素的响应函数处理事件
+	  */
+	 newl.onclick = function(){
+
+	 	
+	 	var li = document.createElement("li");
+	 	li.innerHTML = '<a href="javascript:;" class="link">click</a>';
+
+	 	ol.appendChild(li);
+	 }
+
+	 ol.onclick = function(event){
+	 	event = event || window.event;
+	 	//target：event中的target表示触发事件的对象
+	 	if (event.target.className == 'link') {
+	 		alert("message");
+	 	};
+	 }
+
+</script>
+</body>
+</html>

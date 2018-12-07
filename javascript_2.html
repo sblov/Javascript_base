@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		 /*
+		 	JS中拥有自动的垃圾回收机制，会自动将这些垃圾对象从内存中销毁，不能手动进行垃圾回收操作
+		  */
+		 //数组，可以放任何类型的值
+		 var arr = new Array();
+		 //var arr = [0,1,2];
+		 //var arr = new Array(1,2,3);
+		 //var arr = new Array(3);
+		 arr[0] = 0;
+		 arr[1] = 1;
+		 console.log(arr);
+		 console.log(arr.length);
+		 //push()
+		 var result = arr.push("values");//arr.unshift("values");
+		 console.log(result);
+		 console.log(arr);
+		 //pop()
+		 var result_1 = arr.pop();//arr.shift();
+		 console.log(result_1);
+		 console.log(arr);
+
+		 /*
+		 forEach():只支持IE8以上浏览器；需要一个函数作为参数，浏览器会给该回调函数传递三个参数：1、当前正在遍历的元素-2、当前正在遍历的元素的索引-3、正在遍历的数组
+		  */
+		 arr.forEach(function(value,index,obj){
+		 	console.log(value);
+		 	console.log(index);
+		 	console.log(obj == arr);
+		 });
+		 //slice()
+		 var result_2 = arr.slice(0, 1);
+		 console.log(result_2);
+		 //splice()
+		 arr.splice(0,1, "a","b");
+		 console.log(arr);
+
+		 //concat()
+		 var arr_1 = [3,4,5];
+		 var result_3 = arr.concat(arr_1,arr_1,"h");
+		 console.log(result_3);
+		 //join()
+		 console.log(arr.join("---"));
+		 //reverse()
+		 console.log(arr.reverse());
+		 //sort():默认按照Unicode编码排序；通过回调函数，返回值大于0，则元素交换位置，小于0或等于0不交换位置
+		 console.log(arr.sort());
+		 console.log(arr.sort(function(a,b){
+		 	/*if (a > b) {return 1;}
+		 	else if (a < b) {return -1;}
+		 	if (a == b) {return 0;}*/
+		 	return a-b;
+		 }));
+
+
+		 /*
+		 函数方法：call(),apply()
+		 	当对函数调用时都会调用函数执行
+		 	调用时可以将一个对象指定为第一个参数，这个对象将成为函数执行时的this
+		 	call()方法可以将实参在对象之后依次传递
+		 	apply()方法需要将实参封装到一个数组中统一传递
+		  */
+		 function fun(a , b){
+		 	console.log(a);
+		 	console.log(b);
+		 	console.log(this);
+		 }
+		 var obj = {name: "lov"};
+		 fun.call(obj,2,3);
+		 fun.apply(obj,[2,3])
+
+		 /*
+		 arguments:调用函数时，浏览器传递的隐含参数
+		 		callee对象：对应当前正在指向的函数的对象
+		  */
+		 function fun_1(){
+		 	console.log(arguments.length);
+		 	console.log(arguments.callee);
+		 }
+		 fun_1(1,2);
+
+		 //Date对象
+		 var d = new Date();//当前代码执行时间
+		 console.log(d);
+		 var d2 = new Date("12/02/2013 11:11:11");
+		 console.log(d2);
+		 console.log(d.getDate());//日
+		 console.log(d.getDay());//周几（0为周日）
+		 console.log(d.getMonth());//月（0开始）
+		 console.log(d.getFullYear());//年
+		 console.log(d.getTime());//时间戳，从1970.1.1 0:0:0到现在的毫秒数
+		 console.log(Date.now());//当前时间戳
+
+		 //Math对象
+		 console.log(Math.PI);
+		 console.log(Math.ceil(1.1)+","+Math.floor(1.1)+","+Math.round(1.5));//向上取整，向下取整，四舍五入
+		 console.log(Math.round(Math.random()*10+1));//生成x-y之间的随机数：Math.round(Math.random()*(y-x)+x);
+		 console.log(Math.max(1,2,5));
+		 console.log(Math.min(3,4,5));
+		 console.log(Math.pow(2,3));//2的3次方
+		 console.log(Math.sqrt(9));//开方
+
+		 	/*包装类(一般不使用)
+		 	当对一些基本数据类型的值调用属性和方法时，浏览器会临时使用包装类将期转换为对象，然后在调用对象额属性与方法，调用完后，再将期转换为基本数据类型
+		 	*/
+		 var number = new Number(1);
+		 var boolea = new Boolean(true);
+		 var string = new String("string");
+		 console.log(number+","+boolea+","+string);
+		 var n = 1;
+		 n.test = 2;
+		 console.log(n.test);
+
+		 //字符串
+		 var s = "hello world";
+		 console.log(s.length);
+		 console.log(s[4]);
+		 console.log(s.charAt(4));
+		 console.log(s.charCodeAt(4));//获取字符的Unicode编码
+		 console.log(String.fromCharCode(72));//根据字符编码获取字符
+		 console.log(s.concat("aa"));
+		 console.log(s.indexOf("o",2));//从指定位置查找该字符并返回索引
+		 console.log(s.lastIndexOf("o", 5));//从后往前查找
+		 console.log(s.slice(2, 3));
+		 console.log(s.substring(2, 3));
+		 console.log(s.substr( 2, 3));
+		 s = "a,b,c,d";
+		 console.log(s.split(",").length);
+		 console.log(s[0].toUpperCase());
+		 console.log(s[0].toUpperCase().toLowerCase());
+		 s = "1b2b3b4b5b6b7h8";
+		 console.log(s.split(/[A-z]/).length);
+		 console.log(s.search(/b[0-9]/));
+		 console.log(s.match(/[a-z]/gi).length);
+		 console.log(s.replace(/[a-z]/gi,"-"));
+
+		 /*
+		 正则表达式
+		 	var 变量 =  new RegExp("正则表达式","匹配模式");
+		 	var 变量 = /正则表达式/匹配模式;
+		 	匹配模式：i：忽略大小写，g：全局匹配模式
+		 	正则表达式：
+				|：表示或关系
+				[]:表示或关系
+				[^]：除了
+		  */
+		  //var reg = /a|b/i;
+		  var reg = /[A-z]/ ;//任意字母
+		  console.log(reg.test("abc"));
+
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

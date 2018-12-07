@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	#box1{
+
+		width: 100px;
+		height: 100px;
+		background-color: red;
+		position: absolute;
+		left: 0;
+	}
+	#box2{
+
+		width: 100px;
+		height: 100px;
+		background-color: green;
+		position: absolute;
+		left: 0;
+		top: 200px;
+	}
+</style>
+<body>
+	
+<button id="btn">box1-></button>
+<button id="btnl">box1<-</button>
+<button id="btn2">box2</button>
+
+<br><br>
+<div id="box1"></div>
+<div id="box2"></div>
+<div style="width: 0;height: 1000px;border-left: 1px black solid;left: 800px;top:0;position: absolute"></div>
+
+<script>
+	
+	window.onload = function(){
+
+		var btn = document.getElementById("btn");
+		var btnl= document.getElementById("btnl");
+		var btn2 = document.getElementById("btn2");
+		var box1= document.getElementById("box1");
+		var box2 = document.getElementById("box2");
+ 		//var timer;
+		btn.onclick = function(){
+			move(box1,"left",800,10);
+		}
+
+		btnl.onclick = function(){
+			move(box1,"left",0,10);
+		}
+
+		btn2.onclick = function(){
+			move(box2,"width",800,20,function(){
+				move(box2,"height",300,10,function(){
+					move(box2,"top",0,10,function(){
+						move(box2,"width",100,10);
+						});
+					});
+				}
+			);
+			
+		}
+
+
+		function getStyle(obj,name){
+			if(window.getComputedStyle){
+				return getComputedStyle(obj,null)[name];
+			}else{
+				return obj.currentStyle[name];
+			}
+		}
+		/*
+			obj:目标对象
+			target:目标位置
+			speed：速度
+		 */
+		function move(obj , attr, target, speed, callback){
+			//关闭上一个定时器
+			clearInterval(obj.timer);
+			var current =  parseInt(getStyle(obj,attr));
+			if (current > target) {
+					speed = -speed;
+			};
+
+			//开启定时器
+			obj.timer = setInterval(function(){
+				var current =  parseInt(getStyle(obj,attr));
+				console.log(current);
+
+				// if (current > target) {
+				// 	speed = -speed;
+				// };
+				//var num  = parseInt(current);
+				var newValue = current + speed;
+
+				obj.style[attr] = newValue+"px";
+
+				if (newValue == target) {
+					clearInterval(obj.timer);
+
+					callback && callback();
+				};
+			}, 30)
+		}
+
+	}
+</script>
+</body>
+</html>
